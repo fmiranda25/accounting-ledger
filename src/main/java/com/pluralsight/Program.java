@@ -1,17 +1,14 @@
 package com.pluralsight;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Program {
     static Scanner input = new Scanner(System.in);
-    //ArrayList<Item> items = new ArrayList<Item>();
+    static ArrayList<Transaction> transactions = getTransactions();
     public static void main(String[] args) {
-//        ArrayList<Item> items = new ArrayList<Item>();
+
         try {
             FileReader fileReader = new FileReader("transactions.csv");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -54,13 +51,30 @@ public class Program {
     } ////////////////////////////////////////////////////////////////////////////////////////////////////// end of main
 
     public static void displayDepositScreen() {
+        // get current date and time, enter name, item, and amount, write to csv
         System.out.print("Enter the amount you would like to deposit: ");
         double depositAmount = input.nextDouble();
-        System.out.println(depositAmount);
+
+        try {
+            FileWriter fileWriter = new FileWriter("transactions.csv", true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write("\n" + (int) depositAmount);
+            bufferedWriter.close();
+
+        } catch (IOException e) {
+            System.out.println("ERROR: An unexpected error occurred");
+            e.printStackTrace();
+        }
+        displayAllLedgerEntries();
+
     }
 
     public static void displayPaymentScreen() {
-        System.out.println("Hello 2");
+        // get current date and time, enter name, item, and amount, write to csv
+        System.out.println("Enter the payment amount: ");
+        double paymentAmount = input.nextDouble();
+        System.out.println(paymentAmount);
+
     }
 
     public static void displayLedgerScreen() {
@@ -121,7 +135,7 @@ public class Program {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
+    } /////////////////////////////////////////////////////////////////////////////////// end of displayAllLedgerEntries
 
     public static void displayLedgerDeposits() {
 
@@ -132,14 +146,78 @@ public class Program {
     }
 
     public static void displayLedgerReports() {
+        System.out.println("""
+                Select which reports to show
+                
+                1) Month To Date
+                2) Previous Month
+                3) Year To Date
+                4) Previous Year
+                5) Search By Vendor
+                0) Back
+                
+                
+                
+                """);
+        int ledgerReportsInput = input.nextInt();
+        switch (ledgerReportsInput) {
+            case 1:
+                // month to date function
+                break;
+            case 2:
+                // previous month function
+            case 3:
+                // year to date function
+            case 4:
+                // previous year function
+            case 5:
+                // check if equal to vendorName
+            case 0:
+                displayLedgerScreen();
+                break;
+        }
 
     }
     public static void returnToHomeScreen() {
         System.out.println("");
     }
-//    public static ArrayList<Item> getItems() {
-//        return new ArrayList<>();
-//    }
+
+
+    public static ArrayList<Transaction> getTransactions() {
+        try {
+            FileReader fileReader = new FileReader("transactions.csv");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            String line = bufferedReader.readLine();
+            while(line != null) {
+                String[] transactionAttributes = line.split("\\|");
+                Transaction currentTransaction = new Transaction();
+
+
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return transactions;
+    }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

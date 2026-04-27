@@ -1,17 +1,17 @@
 package com.pluralsight;
 
-public class Item {
+public class Transaction {
     private String date;
     private String time;
     private String itemDescription;
     private String vendorName;
     private double amount;
 
-    public Item() {
+    public Transaction() {
 
     }
 
-    public Item(String date, String time, String itemDescription, String vendorName, double amount) {
+    public Transaction(String date, String time, String itemDescription, String vendorName, double amount) {
         this.date = date;
         this.time = time;
         this.itemDescription = itemDescription;
