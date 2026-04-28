@@ -2,58 +2,55 @@ package com.pluralsight;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Program {
     static Scanner input = new Scanner(System.in);
-    static ArrayList<Transaction> transactions = getTransactions();
+    static ArrayList<Transaction> transactions = new ArrayList<>();
     public static void main(String[] args) {
 
-        try {
-            FileReader fileReader = new FileReader("transactions.csv");
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
+        boolean programIsRunning = true;
 
-            boolean programIsRunning = true;
-
-            while (programIsRunning) {
-                System.out.print("""
-                        Welcome To The Accounting Ledger
-                        
-                        What would you like to do?
-                        D). Add deposit
-                        P). Make payment
-                        L). Display the ledger
-                        X). Exit the application
-                        
-                        Enter: 
-                        """);
-                String command = input.nextLine();
-                command = command.toUpperCase();
-                switch (command) {
-                    case "D":
-                        displayDepositScreen();
-                        break;
-                    case "P":
-                        displayPaymentScreen();
-                        break;
-                    case "L":
-                        displayLedgerScreen();
-                        break;
-                    case "X":
-                        programIsRunning = false;
-                        break;
-                }
-
+        while (programIsRunning) {
+            System.out.print("""
+                    Welcome To The Accounting Ledger
+                    
+                    What would you like to do?
+                    D). Add deposit
+                    P). Make payment
+                    L). Display the ledger
+                    X). Exit the application
+                    
+                    Enter: 
+                    """);
+            String command = input.nextLine();
+            command = command.toUpperCase();
+            switch (command) {
+                case "D":
+                    displayDepositScreen();
+                    break;
+                case "P":
+                    displayPaymentScreen();
+                    break;
+                case "L":
+                    displayLedgerScreen();
+                    break;
+                case "X":
+                    programIsRunning = false;
+                    break;
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+
         }
+
     } ////////////////////////////////////////////////////////////////////////////////////////////////////// end of main
 
     public static void displayDepositScreen() {
         // get current date and time, enter name, item, and amount, write to csv
         System.out.print("Enter the amount you would like to deposit: ");
         double depositAmount = input.nextDouble();
+        System.out.println("Enter the return type: ");
+        String deposit
 
         try {
             FileWriter fileWriter = new FileWriter("transactions.csv", true);
@@ -111,31 +108,11 @@ public class Program {
         }
     } /////////////////////////////////////////////////////////////////////////////////////// end of displayLedgerScreen
 
-    public static void displayAllLedgerEntries() { ///// Bedtime stories
-        try {
-            FileReader fileReader = new FileReader("transactions.csv");
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String line = bufferedReader.readLine();
+    public static void displayAllLedgerEntries() {
 
-            while (line != null) {
-                System.out.println(line);
-                line = bufferedReader.readLine();
-            }
-
-            System.out.println("Press H to return");
-            String whereAfterAllEntries = input.nextLine();
-            whereAfterAllEntries = whereAfterAllEntries.toUpperCase();
-            if (whereAfterAllEntries.equals("H")) {
-                displayLedgerScreen();
-            } else {
-                displayAllLedgerEntries();
-            }
-
-            bufferedReader.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    } /////////////////////////////////////////////////////////////////////////////////// end of displayAllLedgerEntries
+        getTransactions();
+        printTransactions(transactions);
+    }
 
     public static void displayLedgerDeposits() {
 
@@ -188,19 +165,34 @@ public class Program {
             FileReader fileReader = new FileReader("transactions.csv");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-            String line = bufferedReader.readLine();
-            while(line != null) {
+            String line;
+            boolean checkFirstLine = true;
+            while((line = bufferedReader.readLine()) != null) {
+                if (checkFirstLine) {
+                    checkFirstLine = false;
+                    continue;
+                }
                 String[] transactionAttributes = line.split("\\|");
                 Transaction currentTransaction = new Transaction();
-
-
+                currentTransaction.setDate(transactionAttributes[0]);
+                currentTransaction.setTime(transactionAttributes[1]);
+                currentTransaction.setItemDescription(transactionAttributes[2]);
+                currentTransaction.setVendorName(transactionAttributes[3]);
+                currentTransaction.setAmount(Double.parseDouble(transactionAttributes[4]));
+                transactions.add(currentTransaction);
             }
+            bufferedReader.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
         return transactions;
+    }
+
+    public static void printTransactions(ArrayList<Transaction> transactions) {
+        for (Transaction transaction : transactions) {
+            System.out.println(transaction.getDate() + " | " + transaction.getTime() + " | " + transaction.getItemDescription()
+                    + " | " + transaction.getVendorName() + " | " + transaction.getAmount());
+        }
     }
 
 
