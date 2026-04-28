@@ -4,11 +4,14 @@ import java.io.*;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Program {
     static Scanner input = new Scanner(System.in);
     static ArrayList<Transaction> transactions = new ArrayList<>();
     public static void main(String[] args) {
+        transactions = getTransactions();
 
         boolean programIsRunning = true;
 
@@ -46,33 +49,100 @@ public class Program {
     } ////////////////////////////////////////////////////////////////////////////////////////////////////// end of main
 
     public static void displayDepositScreen() {
-        // get current date and time, enter name, item, and amount, write to csv
+        Transaction newTransaction = new Transaction();
         System.out.print("Enter the amount you would like to deposit: ");
-        double depositAmount = input.nextDouble();
-        System.out.println("Enter the return type: ");
-        String deposit
+        newTransaction.setAmount(input.nextDouble());
+
+        input.nextLine();
+        System.out.println("Enter the deposit category: ");
+        newTransaction.setItemDescription(input.nextLine());
+
+        System.out.println("Enter the deposit type: ");
+        newTransaction.setVendorName(input.nextLine());
+
+        System.out.println("Enter today's date YYYY-MM-DD: "); //////////////////////////// replace with get date method
+        newTransaction.setDate(input.nextLine());
+
+        System.out.println("Enter the time 00:00:00: "); ////////////////////////////////// replace with get time method
+        newTransaction.setTime(input.nextLine());
 
         try {
             FileWriter fileWriter = new FileWriter("transactions.csv", true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write("\n" + (int) depositAmount);
+            bufferedWriter.write("\n" +
+                    newTransaction.getDate() + "|" +
+                    newTransaction.getTime() + "|" +
+                    newTransaction.getItemDescription() + "|" +
+                    newTransaction.getVendorName() + "|" +
+                    newTransaction.getAmount());
             bufferedWriter.close();
 
         } catch (IOException e) {
             System.out.println("ERROR: An unexpected error occurred");
             e.printStackTrace();
         }
-        displayAllLedgerEntries();
 
-    }
+        transactions.add(newTransaction);
+        System.out.println("Deposit saved.");
+        System.out.println("H) Return to home screen");
+        String returnToHome = input.nextLine();
+        returnToHome = returnToHome.toUpperCase();
+        switch (returnToHome) {
+            case "H":
+                returnToHomeScreen();
+        }
+
+
+
+
+    } ////////////////////////////////////////////////////////////////////////////////////// end of displayDepositScreen
 
     public static void displayPaymentScreen() {
-        // get current date and time, enter name, item, and amount, write to csv
-        System.out.println("Enter the payment amount: ");
-        double paymentAmount = input.nextDouble();
-        System.out.println(paymentAmount);
+        Transaction newTransaction = new Transaction();
+        System.out.print("Enter the amount you would like to pay: ");
+        newTransaction.setAmount(input.nextDouble() * -1);
 
-    }
+        input.nextLine();
+        System.out.println("Enter the name of the item: ");
+        newTransaction.setItemDescription(input.nextLine());
+
+        System.out.println("Enter the name of the vendor: ");
+        newTransaction.setVendorName(input.nextLine());
+
+        System.out.println("Enter today's date YYYY-MM-DD: "); //////////////////////////// replace with get date method
+        newTransaction.setDate(input.nextLine());
+
+        System.out.println("Enter the time 00:00:00: "); ////////////////////////////////// replace with get time method
+        newTransaction.setTime(input.nextLine());
+
+
+        try {
+            FileWriter fileWriter = new FileWriter("transactions.csv", true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write("\n" +
+                    newTransaction.getDate() + "|" +
+                    newTransaction.getTime() + "|" +
+                    newTransaction.getItemDescription() + "|" +
+                    newTransaction.getVendorName() + "|" +
+                    newTransaction.getAmount());
+            bufferedWriter.close();
+
+        } catch (IOException e) {
+            System.out.println("ERROR: An unexpected error occurred");
+            e.printStackTrace();
+        }
+
+        transactions.add(newTransaction);
+        System.out.println("Payment saved.");
+        System.out.println("H) Return to home screen");
+        String returnToHome = input.nextLine();
+        returnToHome = returnToHome.toUpperCase();
+        switch (returnToHome) {
+            case "H":
+                returnToHomeScreen();
+        }
+
+    } ////////////////////////////////////////////////////////////////////////////////////// end of displayPaymentScreen
 
     public static void displayLedgerScreen() {
         System.out.println("""
@@ -109,12 +179,23 @@ public class Program {
     } /////////////////////////////////////////////////////////////////////////////////////// end of displayLedgerScreen
 
     public static void displayAllLedgerEntries() {
-
-        getTransactions();
         printTransactions(transactions);
     }
 
     public static void displayLedgerDeposits() {
+        try {
+            FileReader fileReader = new FileReader("transactions.csv");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            for(Transaction transaction : transactions) {
+                if (transaction.getAmount() > 0) {
+                    System.out.println(transaction);
+
+                }
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -155,10 +236,6 @@ public class Program {
         }
 
     }
-    public static void returnToHomeScreen() {
-        System.out.println("");
-    }
-
 
     public static ArrayList<Transaction> getTransactions() {
         try {
@@ -190,12 +267,19 @@ public class Program {
 
     public static void printTransactions(ArrayList<Transaction> transactions) {
         for (Transaction transaction : transactions) {
-            System.out.println(transaction.getDate() + " | " + transaction.getTime() + " | " + transaction.getItemDescription()
-                    + " | " + transaction.getVendorName() + " | " + transaction.getAmount());
+            System.out.printf("%s | %s | %s | %s | %s",
+                    transaction.getDate(),
+                    transaction.getTime(),
+                    transaction.getItemDescription(),
+                    transaction.getVendorName(),
+                    transaction.getAmount()
+                            + "\n");
         }
     }
 
-
+    public static void returnToHomeScreen() {
+        System.out.println("");
+    }
 }
 
 

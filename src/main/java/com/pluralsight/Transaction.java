@@ -7,18 +7,6 @@ public class Transaction {
     private String vendorName;
     private double amount;
 
-    public Transaction() {
-
-    }
-
-    public Transaction(String date, String time, String itemDescription, String vendorName, double amount) {
-        this.date = date;
-        this.time = time;
-        this.itemDescription = itemDescription;
-        this.vendorName = vendorName;
-        this.amount = amount;
-    }
-
     public String getDate() {
         return date;
     }
