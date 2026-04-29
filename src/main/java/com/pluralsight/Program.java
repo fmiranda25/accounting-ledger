@@ -1,15 +1,21 @@
 package com.pluralsight;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.io.IOException;
-import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.io.IOException;
+import java.util.Locale;
+import java.util.Scanner;
 
 public class Program {
     static Scanner input = new Scanner(System.in);
     static ArrayList<Transaction> transactions = new ArrayList<>();
+//    static LocalDate currentDate = LocalDate.now();
+//    static LocalTime currentTime = LocalTime.now();
+
     public static void main(String[] args) {
         transactions = getTransactions();
 
@@ -60,11 +66,8 @@ public class Program {
         System.out.println("Enter the deposit type: ");
         newTransaction.setVendorName(input.nextLine());
 
-        System.out.println("Enter today's date YYYY-MM-DD: "); //////////////////////////// replace with get date method
-        newTransaction.setDate(input.nextLine());
-
-        System.out.println("Enter the time 00:00:00: "); ////////////////////////////////// replace with get time method
-        newTransaction.setTime(input.nextLine());
+        newTransaction.setDate(getCurrentDate());
+        newTransaction.setTime(getCurrentTime());
 
         try {
             FileWriter fileWriter = new FileWriter("transactions.csv", true);
@@ -84,13 +87,7 @@ public class Program {
 
         transactions.add(newTransaction);
         System.out.println("Deposit saved.");
-        System.out.println("H) Return to home screen");
-        String returnToHome = input.nextLine();
-        returnToHome = returnToHome.toUpperCase();
-        switch (returnToHome) {
-            case "H":
-                returnToHomeScreen();
-        }
+        promptHomeScreen();
 
 
 
@@ -109,11 +106,8 @@ public class Program {
         System.out.println("Enter the name of the vendor: ");
         newTransaction.setVendorName(input.nextLine());
 
-        System.out.println("Enter today's date YYYY-MM-DD: "); //////////////////////////// replace with get date method
-        newTransaction.setDate(input.nextLine());
-
-        System.out.println("Enter the time 00:00:00: "); ////////////////////////////////// replace with get time method
-        newTransaction.setTime(input.nextLine());
+        newTransaction.setDate(getCurrentDate());
+        newTransaction.setTime(getCurrentTime());
 
 
         try {
@@ -134,13 +128,7 @@ public class Program {
 
         transactions.add(newTransaction);
         System.out.println("Payment saved.");
-        System.out.println("H) Return to home screen");
-        String returnToHome = input.nextLine();
-        returnToHome = returnToHome.toUpperCase();
-        switch (returnToHome) {
-            case "H":
-                returnToHomeScreen();
-        }
+        promptHomeScreen();
 
     } ////////////////////////////////////////////////////////////////////////////////////// end of displayPaymentScreen
 
@@ -183,23 +171,32 @@ public class Program {
     }
 
     public static void displayLedgerDeposits() {
-        try {
-            FileReader fileReader = new FileReader("transactions.csv");
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-            for(Transaction transaction : transactions) {
-                if (transaction.getAmount() > 0) {
-                    System.out.println(transaction);
-
-                }
+        for (Transaction transaction : transactions) {
+            if (transaction.getAmount() > 0) {
+                System.out.printf("%s | %s | %s | %s | %s",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getItemDescription(),
+                        transaction.getVendorName(),
+                        transaction.getAmount()
+                                + "\n");
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         }
 
     }
 
     public static void displayLedgerPayments() {
+        for (Transaction transaction : transactions) {
+            if (transaction.getAmount() < 0) {
+                System.out.printf("%s | %s | %s | %s | %s",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getItemDescription(),
+                        transaction.getVendorName(),
+                        transaction.getAmount()
+                                + "\n");
+            }
+        }
 
     }
 
@@ -220,22 +217,43 @@ public class Program {
         int ledgerReportsInput = input.nextInt();
         switch (ledgerReportsInput) {
             case 1:
-                // month to date function
+                displayMonthToDate();
                 break;
             case 2:
-                // previous month function
+                displayFromPreviousMonth();
             case 3:
-                // year to date function
+                displayYearToDate();
             case 4:
-                // previous year function
+                displayFromPreviousYear();
             case 5:
-                // check if equal to vendorName
+                displayByVendor();
             case 0:
                 displayLedgerScreen();
                 break;
         }
 
     }
+
+    public static void displayMonthToDate() {
+        // month to date function
+    }
+
+    public static void displayFromPreviousMonth() {
+        // previous month function
+    }
+
+    public static void displayYearToDate() {
+        // year to date function
+    }
+
+    public static void displayFromPreviousYear() {
+        // previous year function
+    }
+
+    public static void displayByVendor() {
+        // check if equal to vendorName
+    }
+
 
     public static ArrayList<Transaction> getTransactions() {
         try {
@@ -277,8 +295,29 @@ public class Program {
         }
     }
 
+    public static void promptHomeScreen() {
+        System.out.println("H) Return to home screen");
+        String returnToHome = input.nextLine();
+        returnToHome = returnToHome.toUpperCase();
+        switch (returnToHome) {
+            case "H":
+                returnToHomeScreen();
+        }
+    }
     public static void returnToHomeScreen() {
         System.out.println("");
+    }
+
+    public static String getCurrentTime() {
+        LocalDateTime unformattedTime = LocalDateTime.now();
+        DateTimeFormatter time = DateTimeFormatter.ofPattern("HH:mm:ss");
+        return unformattedTime.format(time);
+    }
+
+    public static String getCurrentDate() {
+        LocalDateTime unformattedDate = LocalDateTime.now();
+        DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return unformattedDate.format(date);
     }
 }
 
