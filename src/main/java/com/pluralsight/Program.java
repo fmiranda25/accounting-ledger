@@ -278,9 +278,8 @@ public class Program {
     public static void displayByVendor() {
 
         System.out.println("Enter vendor name: ");
-
-        String allVendorEntries = input.nextLine();
         input.nextLine();
+        String allVendorEntries = input.nextLine();
 
         for (Transaction transaction : transactions) {
             if (allVendorEntries.equals(transaction.getVendorName())) {
