@@ -140,7 +140,7 @@ public class Program {
                 A) All - Display all entries
                 D) Deposits - Display only the entries that are deposits into the account
                 P) Payments - Display only the negative entries (or payments)
-                R) Reports - 
+                R) Reports - Display reports by month, year, or vendor
                 H) Return to home screen
                 
                 Enter: 
@@ -197,7 +197,6 @@ public class Program {
                                 + "\n");
             }
         }
-
     }
 
     public static void displayLedgerReports() {
@@ -235,7 +234,20 @@ public class Program {
     }
 
     public static void displayMonthToDate() {
-        // month to date function
+        String dateToSplit = getCurrentDate();
+        String regex = "-";
+        String[] dateArray = dateToSplit.split(regex);
+        for (Transaction transaction : transactions) {
+            if (dateArray[1].equals(transaction.getDate().substring(5,7)) && dateArray[0].equals(transaction.getDate().substring(0,4))) {
+                System.out.printf("%s | %s | %s | %s | %s",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getItemDescription(),
+                        transaction.getVendorName(),
+                        transaction.getAmount()
+                                + "\n");
+            }
+        }
     }
 
     public static void displayFromPreviousMonth() {
@@ -243,7 +255,20 @@ public class Program {
     }
 
     public static void displayYearToDate() {
-        // year to date function
+        String dateToSplit = getCurrentDate();
+        String regex = "-";
+        String[] dateArray = dateToSplit.split(regex);
+        for (Transaction transaction : transactions) {
+            if (dateArray[0].equals(transaction.getDate().substring(0,4))) {
+                System.out.printf("%s | %s | %s | %s | %s",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getItemDescription(),
+                        transaction.getVendorName(),
+                        transaction.getAmount()
+                                + "\n");
+            }
+        }
     }
 
     public static void displayFromPreviousYear() {
@@ -251,7 +276,24 @@ public class Program {
     }
 
     public static void displayByVendor() {
-        // check if equal to vendorName
+
+        System.out.println("Enter vendor name: ");
+
+        String allVendorEntries = input.nextLine();
+        input.nextLine();
+
+        for (Transaction transaction : transactions) {
+            if (allVendorEntries.equals(transaction.getVendorName())) {
+                System.out.printf("%s | %s | %s | %s | %s",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getItemDescription(),
+                        transaction.getVendorName(),
+                        transaction.getAmount()
+                                + "\n");
+            }
+        }
+        promptHomeScreen();
     }
 
 
@@ -319,6 +361,7 @@ public class Program {
         DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return unformattedDate.format(date);
     }
+
 }
 
 
