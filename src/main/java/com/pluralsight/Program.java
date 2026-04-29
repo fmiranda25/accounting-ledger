@@ -1,13 +1,10 @@
 package com.pluralsight;
 
 import java.io.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Program {
@@ -49,9 +46,7 @@ public class Program {
                     programIsRunning = false;
                     break;
             }
-
         }
-
     } ////////////////////////////////////////////////////////////////////////////////////////////////////// end of main
 
     public static void displayDepositScreen() {
@@ -88,10 +83,6 @@ public class Program {
         transactions.add(newTransaction);
         System.out.println("Deposit saved.");
         promptHomeScreen();
-
-
-
-
     } ////////////////////////////////////////////////////////////////////////////////////// end of displayDepositScreen
 
     public static void displayPaymentScreen() {
@@ -108,7 +99,6 @@ public class Program {
 
         newTransaction.setDate(getCurrentDate());
         newTransaction.setTime(getCurrentTime());
-
 
         try {
             FileWriter fileWriter = new FileWriter("transactions.csv", true);
@@ -129,7 +119,6 @@ public class Program {
         transactions.add(newTransaction);
         System.out.println("Payment saved.");
         promptHomeScreen();
-
     } ////////////////////////////////////////////////////////////////////////////////////// end of displayPaymentScreen
 
     public static void displayLedgerScreen() {
@@ -182,7 +171,6 @@ public class Program {
                                 + "\n");
             }
         }
-
     }
 
     public static void displayLedgerPayments() {
@@ -230,7 +218,6 @@ public class Program {
                 displayLedgerScreen();
                 break;
         }
-
     }
 
     public static void displayMonthToDate() {
@@ -272,7 +259,24 @@ public class Program {
     }
 
     public static void displayFromPreviousYear() {
-        // previous year function
+        String dateToSplit = getCurrentDate();
+        String regex = "-";
+        String[] dateArray = dateToSplit.split(regex);
+        String previousYearUnconverted = dateArray[0];
+        int previousYearToInt = Integer.parseInt(previousYearUnconverted) - 1;
+        String previousYearConverted = String.valueOf(previousYearToInt);
+        for (Transaction transaction : transactions) {
+            if (previousYearConverted.equals(transaction.getDate().substring(0,4))) {
+                System.out.printf("%s | %s | %s | %s | %s",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getItemDescription(),
+                        transaction.getVendorName(),
+                        transaction.getAmount()
+                                + "\n");
+            }
+        }
+        promptHomeScreen();
     }
 
     public static void displayByVendor() {
@@ -294,7 +298,6 @@ public class Program {
         }
         promptHomeScreen();
     }
-
 
     public static ArrayList<Transaction> getTransactions() {
         try {
@@ -360,21 +363,4 @@ public class Program {
         DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return unformattedDate.format(date);
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
