@@ -248,10 +248,24 @@ public class Program {
         String[] dateArray = dateToSplit.split(regex);
         String previousMonthUnconverted = dateArray[1];
         int previousMonthToInt = Integer.parseInt(previousMonthUnconverted) - 1;
+        System.out.println(previousMonthToInt);
 
-        if (previousMonthToInt == 1) {
+        if (previousMonthToInt == 0) {
             previousMonthToInt = 12;
             previousMonthConverted = String.valueOf(previousMonthToInt);
+            for (Transaction transaction : transactions) {
+                if (dateArray[0].equals(transaction.getDate().substring(0,4))) {
+                    if (previousMonthConverted.equals(transaction.getDate().substring(6,7))) {
+                        System.out.printf("%s | %s | %s | %s | %s",
+                                transaction.getDate(),
+                                transaction.getTime(),
+                                transaction.getItemDescription(),
+                                transaction.getVendorName(),
+                                transaction.getAmount()
+                                        + "\n");
+                    }
+                }
+            }
         } else {
             previousMonthConverted = String.valueOf(previousMonthToInt);
         }
