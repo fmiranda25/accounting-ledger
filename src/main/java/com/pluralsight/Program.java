@@ -3,6 +3,8 @@ package com.pluralsight;
 import java.io.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -242,48 +244,23 @@ public class Program {
     }
 
     public static void displayFromPreviousMonth() {
-        String dateToSplit = getCurrentDate();
-        String previousMonthConverted;
-        String regex = "-";
-        String[] dateArray = dateToSplit.split(regex);
-        String previousMonthUnconverted = dateArray[1];
-        int previousMonthToInt = Integer.parseInt(previousMonthUnconverted) - 1;
-        System.out.println(previousMonthToInt);
-
-        if (previousMonthToInt == 0) {
-            previousMonthToInt = 12;
-            previousMonthConverted = String.valueOf(previousMonthToInt);
-            for (Transaction transaction : transactions) {
-                if (dateArray[0].equals(transaction.getDate().substring(0,4))) {
-                    if (previousMonthConverted.equals(transaction.getDate().substring(6,7))) {
-                        System.out.printf("%s | %s | %s | %s | %s",
-                                transaction.getDate(),
-                                transaction.getTime(),
-                                transaction.getItemDescription(),
-                                transaction.getVendorName(),
-                                transaction.getAmount()
-                                        + "\n");
-                    }
-                }
-            }
-        } else {
-            previousMonthConverted = String.valueOf(previousMonthToInt);
-        }
+        LocalDate today = LocalDate.now();
+        LocalDate previousMonthStart = today.minusMonths(1).withDayOfMonth(1);
+        LocalDate previousMonthEnd = today.minusMonths(1).with(TemporalAdjusters.lastDayOfMonth());
 
         for (Transaction transaction : transactions) {
-            if (dateArray[0].equals(transaction.getDate().substring(0,4))) {
-                if (previousMonthConverted.equals(transaction.getDate().substring(6,7)) || previousMonthConverted.equals(transaction.getDate().substring(5,7))) {
-                    System.out.printf("%s | %s | %s | %s | %s",
-                            transaction.getDate(),
-                            transaction.getTime(),
-                            transaction.getItemDescription(),
-                            transaction.getVendorName(),
-                            transaction.getAmount()
-                                    + "\n");
-                }
+            if (transaction.getDate().compareTo(String.valueOf(previousMonthStart)) >= 0 && transaction.getDate().compareTo(String.valueOf(previousMonthEnd)) <= 0) {
+                System.out.printf("%s | %s | %s | %s | %s",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getItemDescription(),
+                        transaction.getVendorName(),
+                        transaction.getAmount()
+                                + "\n");
             }
         }
         promptHomeScreen();
+
     }
 
     public static void displayYearToDate() {
@@ -314,7 +291,7 @@ public class Program {
         String previousYearConverted = String.valueOf(previousYearToInt);
 
         for (Transaction transaction : transactions) {
-            if (previousYearConverted.equals(transaction.getDate().substring(0,4))) {
+            if (previousYearConverted.equals(transaction.getDate().substring(0, 4))) {
                 System.out.printf("%s | %s | %s | %s | %s",
                         transaction.getDate(),
                         transaction.getTime(),
