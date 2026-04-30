@@ -3,12 +3,13 @@ package com.pluralsight;
 import java.io.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Program {
+    static LocalDate today = LocalDate.now();
     static Scanner input = new Scanner(System.in);
     static ArrayList<Transaction> transactions = new ArrayList<>();
     public static void main(String[] args) {
@@ -154,20 +155,16 @@ public class Program {
     } /////////////////////////////////////////////////////////////////////////////////////// end of displayLedgerScreen
 
     public static void displayAllLedgerEntries() {
-        printTransactions(transactions);
+        for (Transaction transaction : transactions) {
+            printTransactions(transaction);
+        }
         promptHomeScreen();
     }
 
     public static void displayLedgerDeposits() {
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() > 0) {
-                System.out.printf("%s | %s | %s | %s | %s",
-                        transaction.getDate(),
-                        transaction.getTime(),
-                        transaction.getItemDescription(),
-                        transaction.getVendorName(),
-                        transaction.getAmount()
-                                + "\n");
+                printTransactions(transaction);
             }
         }
         promptHomeScreen();
@@ -176,13 +173,7 @@ public class Program {
     public static void displayLedgerPayments() {
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() < 0) {
-                System.out.printf("%s | %s | %s | %s | %s",
-                        transaction.getDate(),
-                        transaction.getTime(),
-                        transaction.getItemDescription(),
-                        transaction.getVendorName(),
-                        transaction.getAmount()
-                                + "\n");
+                printTransactions(transaction);
             }
         }
         promptHomeScreen();
@@ -201,62 +192,49 @@ public class Program {
                 
                 Enter: 
                 """);
-        String ledgerReportsInput = input.nextLine();
+        int ledgerReportsInput = input.nextInt();
+        input.nextLine();
         switch (ledgerReportsInput) {
-            case "1":
+            case 1:
                 displayMonthToDate();
                 break;
-            case "2":
+            case 2:
                 displayFromPreviousMonth();
                 break;
-            case "3":
+            case 3:
                 displayYearToDate();
                 break;
-            case "4":
+            case 4:
                 displayFromPreviousYear();
                 break;
-            case "5":
+            case 5:
                 displayByVendor();
                 break;
-            case "0":
+            case 0:
                 displayLedgerScreen();
                 break;
         }
     }
 
     public static void displayMonthToDate() {
-        String dateToSplit = getCurrentDate();
-        String regex = "-";
-        String[] dateArray = dateToSplit.split(regex);
+        LocalDate currentMonthStart = today.withDayOfMonth(1);
+        LocalDate currentMonthEnd = today.with(TemporalAdjusters.lastDayOfMonth());
 
         for (Transaction transaction : transactions) {
-            if (dateArray[1].equals(transaction.getDate().substring(5,7)) && dateArray[0].equals(transaction.getDate().substring(0,4))) {
-                System.out.printf("%s | %s | %s | %s | %s",
-                        transaction.getDate(),
-                        transaction.getTime(),
-                        transaction.getItemDescription(),
-                        transaction.getVendorName(),
-                        transaction.getAmount()
-                                + "\n");
+            if (transaction.getDate().compareTo(String.valueOf(currentMonthStart)) >= 0 && transaction.getDate().compareTo(String.valueOf(currentMonthEnd)) <= 0) {
+                printTransactions(transaction);
             }
         }
         promptHomeScreen();
     }
 
     public static void displayFromPreviousMonth() {
-        LocalDate today = LocalDate.now();
         LocalDate previousMonthStart = today.minusMonths(1).withDayOfMonth(1);
         LocalDate previousMonthEnd = today.minusMonths(1).with(TemporalAdjusters.lastDayOfMonth());
 
         for (Transaction transaction : transactions) {
             if (transaction.getDate().compareTo(String.valueOf(previousMonthStart)) >= 0 && transaction.getDate().compareTo(String.valueOf(previousMonthEnd)) <= 0) {
-                System.out.printf("%s | %s | %s | %s | %s",
-                        transaction.getDate(),
-                        transaction.getTime(),
-                        transaction.getItemDescription(),
-                        transaction.getVendorName(),
-                        transaction.getAmount()
-                                + "\n");
+                printTransactions(transaction);
             }
         }
         promptHomeScreen();
@@ -264,41 +242,24 @@ public class Program {
     }
 
     public static void displayYearToDate() {
-        String dateToSplit = getCurrentDate();
-        String regex = "-";
-        String[] dateArray = dateToSplit.split(regex);
+        LocalDate currentYearStart = today.withDayOfYear(1);
+        LocalDate currentYearEnd = today.with(TemporalAdjusters.lastDayOfYear());
 
         for (Transaction transaction : transactions) {
-            if (dateArray[0].equals(transaction.getDate().substring(0,4))) {
-                System.out.printf("%s | %s | %s | %s | %s",
-                        transaction.getDate(),
-                        transaction.getTime(),
-                        transaction.getItemDescription(),
-                        transaction.getVendorName(),
-                        transaction.getAmount()
-                                + "\n");
+            if (transaction.getDate().compareTo(String.valueOf(currentYearStart)) >= 0 && transaction.getDate().compareTo(String.valueOf(currentYearEnd)) <= 0) {
+                printTransactions(transaction);
             }
         }
         promptHomeScreen();
     }
 
     public static void displayFromPreviousYear() {
-        String dateToSplit = getCurrentDate();
-        String regex = "-";
-        String[] dateArray = dateToSplit.split(regex);
-        String previousYearUnconverted = dateArray[0];
-        int previousYearToInt = Integer.parseInt(previousYearUnconverted) - 1;
-        String previousYearConverted = String.valueOf(previousYearToInt);
+        LocalDate previousYearStart = today.minusYears(1).withDayOfYear(1);
+        LocalDate previousYearEnd = today.minusYears(1).with(TemporalAdjusters.lastDayOfYear());
 
         for (Transaction transaction : transactions) {
-            if (previousYearConverted.equals(transaction.getDate().substring(0, 4))) {
-                System.out.printf("%s | %s | %s | %s | %s",
-                        transaction.getDate(),
-                        transaction.getTime(),
-                        transaction.getItemDescription(),
-                        transaction.getVendorName(),
-                        transaction.getAmount()
-                                + "\n");
+            if (transaction.getDate().compareTo(String.valueOf(previousYearStart)) >= 0 && transaction.getDate().compareTo(String.valueOf(previousYearEnd)) <= 0) {
+                printTransactions(transaction);
             }
         }
         promptHomeScreen();
@@ -311,13 +272,7 @@ public class Program {
 
         for (Transaction transaction : transactions) {
             if (allVendorEntries.equals(transaction.getVendorName())) {
-                System.out.printf("%s | %s | %s | %s | %s",
-                        transaction.getDate(),
-                        transaction.getTime(),
-                        transaction.getItemDescription(),
-                        transaction.getVendorName(),
-                        transaction.getAmount()
-                                + "\n");
+                printTransactions(transaction);
             }
         }
         promptHomeScreen();
@@ -343,6 +298,7 @@ public class Program {
                 currentTransaction.setVendorName(transactionAttributes[3]);
                 currentTransaction.setAmount(Double.parseDouble(transactionAttributes[4]));
                 transactions.add(currentTransaction);
+                transactions.sort(Comparator.comparing(Transaction::getDate));
             }
             bufferedReader.close();
         } catch (IOException e) {
@@ -351,16 +307,15 @@ public class Program {
         return transactions;
     }
 
-    public static void printTransactions(ArrayList<Transaction> transactions) {
-        for (Transaction transaction : transactions) {
-            System.out.printf("%s | %s | %s | %s | %s",
+    public static void printTransactions(Transaction transaction) {
+
+        System.out.printf("                                                   ||%15s %15s %25s %25s %25s ",
                     transaction.getDate(),
                     transaction.getTime(),
                     transaction.getItemDescription(),
                     transaction.getVendorName(),
                     transaction.getAmount()
-                            + "\n");
-        }
+                            + "     ||\n");
     }
 
     public static void promptHomeScreen() {
@@ -387,4 +342,5 @@ public class Program {
         DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return unformattedDate.format(date);
     }
+
 }

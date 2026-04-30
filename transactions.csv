@@ -971,30 +971,10 @@ date|time|description|vendor|amount
 2026-02-16|09:56:12|Dinner|Costco|-390.46
 2026-02-17|19:19:29|Dinner|Uber|-432.75
 2026-02-18|05:10:48|Monthly Subscription|Walmart|-235.57
-2026-02-21|03:59:01|Fuel|McDonalds|-325.87
-2026-02-21|06:11:30|Coffee|Best Buy|-452.5
-2026-02-22|15:17:28|Quarterly Bonus|Interest Credit|1472.76
-2026-02-23|12:52:36|Quarterly Bonus|Tax Refund|1554.23
-2026-02-25|08:03:07|Fuel|Target|-374.08
-2026-03-01|17:12:00|Dinner|Shell|-155.74
-2026-03-03|03:08:59|Coffee|McDonalds|-253.08
-2026-03-06|10:44:30|Fuel|Amazon|-320.09
-2026-03-07|11:18:37|Investment Return|Standard Payroll|3604.21
-2026-03-07|16:48:17|Bi-weekly Salary|Bonus Payout|1552.22
-2026-03-08|00:42:03|Reimbursement|Dividend Payment|737.83
 2026-03-10|23:02:22|Software License|Best Buy|-154.6
 2026-03-12|17:31:28|Hardware Upgrade|Adobe|-344.61
 2026-03-13|11:53:44|Software License|Starbucks|-197.23
 2026-03-13|15:02:09|Dinner|Netflix|-85.49
-2026-03-14|01:01:16|Dinner|Steam|-322.62
-2026-03-14|14:49:38|Invoice Paid|Standard Payroll|2343.6
-2026-03-20|12:28:19|Invoice Paid|Vertex Logistics|837.34
-2026-03-24|23:12:39|Dinner|Costco|-250.2
-2026-03-26|17:26:36|Dinner|Target|-188.0
-2026-03-31|17:58:18|Monthly Subscription|McDonalds|-351.95
-2026-04-04|19:38:04|Fuel|Costco|-104.01
-2026-04-07|08:51:41|Investment Return|Dividend Payment|4284.55
-2026-04-13|22:34:14|Monthly Subscription|Apple|-375.42
 2026-04-16|23:56:18|Commute|Costco|-321.23
 2026-04-17|10:13:00|Monthly Subscription|Adobe|-205.4
 2026-04-21|10:45:21|Fuel|Home Depot|-323.94
@@ -1014,6 +994,33 @@ date|time|description|vendor|amount
 2026-04-29|13:39:31|Subscription|DoorDash|-20.0
 2026-04-29|13:40:01|Refund|Direct Deposit|10.0
 2026-04-29|13:55:23|Water Container|LTTStore|-30.0
-2026-04-29|14:26:32|Double Quarter Pounder Meal|McDonalds|-25.0
 2026-04-29|14:50:38|Zelle Transfer|Direct Deposit|20.0
 2026-04-29|14:52:09|Airpods|Apple|-25.0
+2026-03-14|01:01:16|Dinner|Steam|-322.62
+2026-03-14|14:49:38|Invoice Paid|Standard Payroll|2343.6
+2026-02-21|03:59:01|Fuel|McDonalds|-325.87
+2026-02-21|06:11:30|Coffee|Best Buy|-452.5
+2026-02-22|15:17:28|Quarterly Bonus|Interest Credit|1472.76
+2026-02-23|12:52:36|Quarterly Bonus|Tax Refund|1554.23
+2026-02-25|08:03:07|Fuel|Target|-374.08
+2026-03-01|17:12:00|Dinner|Shell|-155.74
+2026-03-03|03:08:59|Coffee|McDonalds|-253.08
+2026-03-06|10:44:30|Fuel|Amazon|-320.09
+2026-03-07|11:18:37|Investment Return|Standard Payroll|3604.21
+2026-03-07|16:48:17|Bi-weekly Salary|Bonus Payout|1552.22
+2026-03-08|00:42:03|Reimbursement|Dividend Payment|737.83
+2026-03-20|12:28:19|Invoice Paid|Vertex Logistics|837.34
+2026-03-24|23:12:39|Dinner|Costco|-250.2
+2026-03-26|17:26:36|Dinner|Target|-188.0
+2026-03-31|17:58:18|Monthly Subscription|McDonalds|-351.95
+2026-04-04|19:38:04|Fuel|Costco|-104.01
+2026-04-07|08:51:41|Investment Return|Dividend Payment|4284.55
+2026-04-13|22:34:14|Monthly Subscription|Apple|-375.42
+2026-01-10|21:20:11|Contract Milestone|Rental Income|4550.18
+2026-01-12|03:14:00|Groceries|Walmart|-46.59
+2026-01-12|03:34:08|Cloud Storage|Netflix|-136.61
+2026-01-13|16:35:50|Cash Deposit|Dividend Payment|2205.83
+2026-01-14|17:18:02|Quarterly Bonus|Standard Payroll|3689.99
+2026-01-17|03:38:12|Reimbursement|Freelance Work|2939.75
+2026-04-30|17:49:40|Quarterly Return|Direct Deposit|500.0
+2026-04-30|17:50:52|Steak Dinner|Chilis|-20.0
