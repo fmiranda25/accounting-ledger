@@ -21,14 +21,12 @@ Here you will be prompted to view all transactions of specific categories
 * Deposits only
 * Payments only
 
-You can also choose to view pre-defined transactions
+You can also choose to view pre-defined transactions under "Reports".
+
 ## Reports
-
-
-
-
-
-
-
-
-
+Here you will be able to select a few options for viewing all transactions
+* Current month
+* Previous month
+* Current year
+* Previous year
+* By vendor (prompts you to enter a vendor name and displays all of those transactions)
