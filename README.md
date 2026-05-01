@@ -12,9 +12,9 @@ Here you will be able to add your deposit amount, the deposit type, and category
 
 ### Payment
 Here you will be able to enter the payment amount, what you're paying for, and the vendor for that item.
-
-Please don't leave anything blank.
-
+```
+Enter the amount: Please don't leave this blank
+```
 ### Executing program
 
 * How to run the program
