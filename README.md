@@ -4,14 +4,16 @@ A relative simple financial ledger that tracks financial transactions, including
 
 ## Description
 
-The application starts with a home screen where the user is prompted to either add a deposit, make a payment, or navigate to the ledger to view past transactions.
+The application starts with a home screen where the user is prompted to either add a deposit, make a payment, navigate to the ledger to view past transactions, or to exit the program.
 
- - Add deposit
- - Make payment
- - Display the ledger
- - Exit the application
+## Transaction Options
+### Deposit
+Here you will be able to add your deposit amount, the deposit type, and category.
 
-## Getting Started
+### Payment
+Here you will be able to enter the payment amount, what you're paying for, and the vendor for that item.
+
+Please don't leave anything blank.
 
 ### Executing program
 
