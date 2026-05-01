@@ -27,7 +27,7 @@ public class Program {
                     L). Display the ledger
                     X). Exit the application
                     
-                    Enter: 
+                    Enter:
                     """);
             String command = input.nextLine();
             command = command.toUpperCase();
@@ -309,7 +309,7 @@ public class Program {
 
     public static void printTransactions(Transaction transaction) {
 
-        System.out.printf("                                                   ||%15s %15s %25s %25s %25s ",
+        System.out.printf("                                                  ||%15s %15s %25s %25s %25s",
                     transaction.getDate(),
                     transaction.getTime(),
                     transaction.getItemDescription(),
@@ -327,6 +327,7 @@ public class Program {
                 returnToHomeScreen();
         }
     }
+
     public static void returnToHomeScreen() {
         System.out.println("");
     }
