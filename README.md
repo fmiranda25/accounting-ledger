@@ -4,7 +4,7 @@ A relative simple financial ledger that tracks financial transactions, including
 
 ## Description
 
-The application starts with a home screen where the user is prompted to either add a deposit, make a payment, navigate to the ledger to view past transactions, or to exit the program.
+The application starts with a home screen where you are prompted to either add a deposit, make a payment, navigate to the ledger to view past transactions, or to exit the program.
 
 ## Transaction Options
 ### Deposit
